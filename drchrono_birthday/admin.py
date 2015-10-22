@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from birthday.models import Patient
+from drchrono_birthday.models import Patient
 
 
 class PatientAdmin(admin.ModelAdmin):
