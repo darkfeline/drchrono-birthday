@@ -1,0 +1,10 @@
+{% block content %}
+
+<p>You are {{ name }}.</p>
+
+<form action="{% url update %}" method="post">
+  <!-- protection here -->
+  <input type="submit" value="Import/update data from drchrono">
+</form>
+
+{% endblock %}
