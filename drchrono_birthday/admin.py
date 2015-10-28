@@ -1,6 +1,8 @@
+from __future__ import unicode_literals
+
 from django.contrib import admin
 
-from drchrono_birthday.models import Patient
+from drchrono_birthday import models
 
 
 class PatientAdmin(admin.ModelAdmin):
@@ -9,4 +11,6 @@ class PatientAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 # Register your models here.
-admin.site.register(Patient, PatientAdmin)
+admin.site.register(models.Patient, PatientAdmin)
+admin.site.register(models.Doctor)
+admin.site.register(models.FlowModel)
