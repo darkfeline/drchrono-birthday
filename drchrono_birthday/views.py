@@ -6,7 +6,6 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseServerError
 from django.core import urlresolvers
-from django.template import RequestContext
 from django.template import loader as template_loader
 
 import httplib2
@@ -14,6 +13,7 @@ from oauth2client import client
 
 from drchrono_birthday.models import FlowModel
 from drchrono_birthday.models import Doctor
+from drchrono_birthday.models import Patient
 
 SECRETS_PATH = 'client_secrets.json'
 
@@ -72,6 +72,7 @@ def auth_return(request):
             _render_error(500, resp.reason))
     data = json.loads(content)
     doctor_id = data['doctor']
+
     # Get doctor name.
     resp, content = http_auth.request(
         'https://drchrono.com/api/doctors/{}'.format(doctor_id))
@@ -80,9 +81,25 @@ def auth_return(request):
             _render_error(500, resp.reason))
     data = json.loads(content)
     name = ' '.join((data['first_name'], data['last_name']))
-    Doctor(user=request.user, name=name).save()
+    doctor = Doctor(user=request.user, name=name)
+    doctor.save()
 
     # Update patients.
+    next = 'https://drchrono.com/api/patients'
+    while next:
+        resp, content = http_auth.request(next)
+        if resp.status != 200:
+            return HttpResponseServerError(
+                _render_error(500, resp.reason))
+        data = json.loads(content)
+
+        for patient in data['results']:
+            Patient(id=patient['id'],
+                    doctor=doctor,
+                    name=' '.join((patient['first_name'], patient['last_name'])),
+                    date_of_birth=patient['date_of_birth'],
+                    email=patient['email']).save()
+        next = data['next']
 
     # Revoke credentials.
     # drchrono does not have revoke_uri

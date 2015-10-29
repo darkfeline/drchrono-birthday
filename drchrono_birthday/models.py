@@ -31,10 +31,11 @@ class Doctor(models.Model):
 
 
 class Patient(models.Model):
+    id = models.IntegerField(primary_key=True)
     doctor = models.ForeignKey(Doctor)
     name = models.CharField(max_length=256)
-    birthday = models.DateField()
-    email = models.CharField(max_length=256)
+    date_of_birth = models.DateField(null=True)
+    email = models.CharField(max_length=256, blank=True)
 
     def __unicode__(self):
         return '{}'.format(self.name)
