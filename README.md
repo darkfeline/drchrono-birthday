@@ -27,8 +27,8 @@ drchrono Birthday is distributed as a Django app, which is installed as follows:
 3. Configure the app in your project's `urls.py`, with the namespace
    `drchrono_birthday`.  Example:
 
-       url(r'^birthday/', include('drchrono_birthday.urls',
-                                  namespace="drchrono_birthday"))
+        url(r'^birthday/', include('drchrono_birthday.urls',
+                                   namespace="drchrono_birthday"))
 
 3. Set up SMTP.  Edit the file `management/commands/sendbirthdaymessages.py` and
    define the function `configure_smtp()`.  This function should return a Python
