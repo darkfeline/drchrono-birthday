@@ -22,6 +22,18 @@ from django.contrib import admin
 from drchrono_birthday import models
 
 
-admin.site.register(models.Patient)
-admin.site.register(models.Doctor)
-admin.site.register(models.FlowModel)
+class PatientAdmin(admin.ModelAdmin):
+    list_display = ('id', 'doctor', 'name', 'date_of_birth', 'email')
+
+
+class DoctorAdmin(admin.ModelAdmin):
+    list_display = ('user', 'name')
+
+
+class FlowModelAdmin(admin.ModelAdmin):
+    list_display = ('user',)
+
+
+admin.site.register(models.Patient, PatientAdmin)
+admin.site.register(models.Doctor, DoctorAdmin)
+admin.site.register(models.FlowModel, FlowModelAdmin)
