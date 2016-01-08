@@ -2,7 +2,14 @@
 
 ## master
 
-## v0.1.0
+### Added
+
+- Added migrations.
+- Added the ability to edit birthday message.
+- Added new user creation.
+- drchrono Birthday now tracks the last time client information was updated.
+
+## 0.1.0
 
 ### Added
 
