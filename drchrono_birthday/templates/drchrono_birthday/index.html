@@ -41,4 +41,19 @@ along with drchrono_birthday.  If not, see <http://www.gnu.org/licenses/>.
   {% bootstrap_button content='Import/update data from drchrono' button_type='submit' %}
 </form>
 
+<section>
+
+  <h2>Update message template</h2>
+
+  <p>You can edit the template used to send emails below. <code>{patient}</code> and <code>{doctor}</code> are
+    used to fill in the names of the patient and your name, respectively.</p>
+
+  <form action="{% url 'drchrono_birthday:message' %}" method="post" class="form">
+    {% csrf_token %}
+    {% bootstrap_form message_form %}
+    {% bootstrap_button content='Update message' button_type='submit' %}
+  </form>
+
+</section>
+
 {% endblock %}

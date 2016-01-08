@@ -24,6 +24,7 @@ from django.shortcuts import render
 from django.http import HttpResponseNotAllowed
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseServerError
+from django.http import HttpResponseForbidden
 from django.core import urlresolvers
 from django.template import loader as template_loader
 
@@ -33,6 +34,7 @@ from oauth2client import client
 from drchrono_birthday.models import FlowModel
 from drchrono_birthday.models import Doctor
 from drchrono_birthday.models import Patient
+from drchrono_birthday.forms import MessageForm
 
 SECRETS_PATH = 'client_secrets.json'
 
@@ -71,8 +73,11 @@ def index(request):
         return HttpResponseSeeOther(index_uri)
     last_updated_text = 'Patient data last updated on {0:%x} at {0:%X}.'
     last_updated_text = last_updated_text.format(current_doctor.last_updated)
-    context = {'name': current_doctor.name, 'user': current_doctor.user,
-               'last_updated': last_updated_text}
+    context = {'name': current_doctor.name,
+               'user': current_doctor.user,
+               'last_updated': last_updated_text,
+               'message_form': MessageForm(
+                   initial={'message': current_doctor.message})}
     return render(request, 'drchrono_birthday/index.html', context)
 
 
@@ -92,6 +97,20 @@ def update(request):
     auth_uri = flow.step1_get_authorize_url()
     FlowModel(user=request.user, flow=flow).save()
     return HttpResponseSeeOther(auth_uri)
+
+
+def message(request):
+    """Handle requests to update user message."""
+    if request.method != 'POST':
+        return HttpResponseNotAllowed(['POST'])
+    try:
+        current_doctor = Doctor.objects.get(user=request.user)
+    except Doctor.DoesNotExist:
+        return HttpResponseForbidden()
+    current_doctor.message = request.POST['message']
+    current_doctor.save()
+    index_uri = urlresolvers.reverse('drchrono_birthday:index')
+    return HttpResponseSeeOther(index_uri)
 
 
 def auth_return(request):
