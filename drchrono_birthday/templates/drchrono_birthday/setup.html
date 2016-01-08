@@ -23,18 +23,11 @@ along with drchrono_birthday.  If not, see <http://www.gnu.org/licenses/>.
 
 {% block content %}
 
-<h1>drchrono Birthday App</h1>
+<h1>New User Setup</h1>
 
-<p>Welcome, {{ name }}.</p>
+<p>Hello, {{ user }}.</p>
 
-<p>You are logged in as {{ user }}.</p>
-
-<p>{{ last_updated }}</p>
-
-<form action="{% url 'drchrono_birthday:update' %}" method="post" class="form">
-  {% csrf_token %}
-  {% bootstrap_button content='Import/update data from drchrono' button_type='submit' %}
-</form>
+<p>Please set up your account by clicking the button below to import data from drchrono.</p>
 
 <form action="{% url 'drchrono_birthday:update' %}" method="post" class="form">
   {% csrf_token %}

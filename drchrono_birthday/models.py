@@ -42,6 +42,7 @@ class Doctor(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     name = models.CharField(max_length=256)
     message = models.TextField(default=_DEFAULT_MESSAGE)
+    last_updated = models.DateTimeField()
 
     def __unicode__(self):
         return '{}'.format(self.user)

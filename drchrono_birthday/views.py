@@ -18,6 +18,7 @@
 from __future__ import unicode_literals
 
 import json
+import datetime
 
 from django.shortcuts import render
 from django.http import HttpResponseNotAllowed
@@ -63,8 +64,24 @@ def index(request):
     """Handle main page."""
     if request.method != 'GET':
         return HttpResponseNotAllowed(['GET'])
-    context = {'name': request.user}
+    try:
+        current_doctor = Doctor.objects.get(user=request.user)
+    except Doctor.DoesNotExist:
+        index_uri = urlresolvers.reverse('drchrono_birthday:setup')
+        return HttpResponseSeeOther(index_uri)
+    last_updated_text = 'Patient data last updated on {0:%x} at {0:%X}.'
+    last_updated_text = last_updated_text.format(current_doctor.last_updated)
+    context = {'name': current_doctor.name, 'user': current_doctor.user,
+               'last_updated': last_updated_text}
     return render(request, 'drchrono_birthday/index.html', context)
+
+
+def setup(request):
+    """Handle initial user setup."""
+    if request.method != 'GET':
+        return HttpResponseNotAllowed(['GET'])
+    context = {'user': request.user}
+    return render(request, 'drchrono_birthday/setup.html', context)
 
 
 def update(request):
@@ -108,7 +125,7 @@ def auth_return(request):
             _render_error(500, resp.reason))
     data = json.loads(content)
     name = ' '.join((data['first_name'], data['last_name']))
-    doctor = Doctor(user=request.user, name=name)
+    doctor = Doctor(user=request.user, name=name, last_updated=datetime.datetime.now())
     doctor.save()
 
     # Update patients.
