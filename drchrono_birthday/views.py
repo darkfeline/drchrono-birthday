@@ -61,7 +61,7 @@ def _render_error(status, message):
 
 def index(request):
     """Handle main page."""
-    if request != 'GET':
+    if request.method != 'GET':
         return HttpResponseNotAllowed(['GET'])
     context = {'name': request.user}
     return render(request, 'drchrono_birthday/index.html', context)
@@ -69,7 +69,7 @@ def index(request):
 
 def update(request):
     """Handle requests to update database using drchrono API."""
-    if request != 'POST':
+    if request.method != 'POST':
         return HttpResponseNotAllowed(['POST'])
     flow = _make_flow()
     auth_uri = flow.step1_get_authorize_url()
@@ -79,7 +79,7 @@ def update(request):
 
 def auth_return(request):
     """Handle OAuth return."""
-    if request != 'GET':
+    if request.method != 'GET':
         return HttpResponseNotAllowed(['GET'])
 
     # Get credentials.
