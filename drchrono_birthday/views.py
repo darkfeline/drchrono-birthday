@@ -123,7 +123,8 @@ def auth_return(request):
         for patient in data['results']:
             Patient(id=patient['id'],
                     doctor=doctor,
-                    name=' '.join((patient['first_name'], patient['last_name'])),
+                    name=' '.join((patient['first_name'],
+                                   patient['last_name'])),
                     date_of_birth=patient['date_of_birth'],
                     email=patient['email']).save()
         next = data['next']
