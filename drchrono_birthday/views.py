@@ -20,6 +20,7 @@ from __future__ import unicode_literals
 import json
 
 from django.shortcuts import render
+from django.http import HttpResponseNotAllowed
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseServerError
 from django.core import urlresolvers
@@ -60,12 +61,16 @@ def _render_error(status, message):
 
 def index(request):
     """Handle main page."""
+    if request != 'GET':
+        return HttpResponseNotAllowed(['GET'])
     context = {'name': request.user}
     return render(request, 'drchrono_birthday/index.html', context)
 
 
 def update(request):
     """Handle requests to update database using drchrono API."""
+    if request != 'POST':
+        return HttpResponseNotAllowed(['POST'])
     flow = _make_flow()
     auth_uri = flow.step1_get_authorize_url()
     FlowModel(user=request.user, flow=flow).save()
@@ -74,6 +79,8 @@ def update(request):
 
 def auth_return(request):
     """Handle OAuth return."""
+    if request != 'GET':
+        return HttpResponseNotAllowed(['GET'])
 
     # Get credentials.
     flow = FlowModel.objects.get(user=request.user).flow
