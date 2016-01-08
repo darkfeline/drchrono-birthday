@@ -29,17 +29,18 @@ along with drchrono_birthday.  If not, see <http://www.gnu.org/licenses/>.
 
 <p>You are logged in as {{ user }}.</p>
 
-<p>{{ last_updated }}</p>
+<section>
 
-<form action="{% url 'drchrono_birthday:update' %}" method="post" class="form">
-  {% csrf_token %}
-  {% bootstrap_button content='Import/update data from drchrono' button_type='submit' %}
-</form>
+  <h2>Update patient info</h2>
 
-<form action="{% url 'drchrono_birthday:update' %}" method="post" class="form">
-  {% csrf_token %}
-  {% bootstrap_button content='Import/update data from drchrono' button_type='submit' %}
-</form>
+  <p>{{ last_updated }}</p>
+
+  <form action="{% url 'drchrono_birthday:update' %}" method="post" class="form">
+    {% csrf_token %}
+    {% bootstrap_button content='Import/update data from drchrono' button_type='submit' %}
+  </form>
+
+</section>
 
 <section>
 
