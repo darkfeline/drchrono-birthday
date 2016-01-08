@@ -71,7 +71,7 @@ def index(request):
     except Doctor.DoesNotExist:
         index_uri = urlresolvers.reverse('drchrono_birthday:setup')
         return HttpResponseSeeOther(index_uri)
-    last_updated_text = 'Patient data last updated on {0:%x} at {0:%X}.'
+    last_updated_text = 'Patient data was last updated on {0:%x} at {0:%X}.'
     last_updated_text = last_updated_text.format(current_doctor.last_updated)
     context = {'name': current_doctor.name,
                'user': current_doctor.user,
