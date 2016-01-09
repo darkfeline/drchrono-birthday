@@ -30,6 +30,15 @@ Sincerely,
 {doctor}"""
 
 
+class Global(models.Model):
+
+    key = models.CharField(primary_key=True, max_length=256)
+    value = models.CharField(max_length=256)
+
+    def __unicode__(self):
+        return '{}'.format(self.key)
+
+
 class FlowModel(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     flow = FlowField()
