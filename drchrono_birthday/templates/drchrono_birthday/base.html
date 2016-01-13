@@ -27,6 +27,23 @@ along with drchrono Birthday.  If not, see <http://www.gnu.org/licenses/>.
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <style>
+     html {
+       position: relative;
+       min-height: 100%;
+     }
+     body {
+       /* Margin bottom by footer height */
+       margin-bottom: 60px;
+     }
+     .footer {
+       position: absolute;
+       bottom: 0;
+       width: 100%;
+       /* Set the fixed height of the footer here */
+       background-color: #f5f5f5;
+     }
+    </style>
     <title>{% block title %}drchrono Birthday App{% endblock %}</title>
   </head>
 
@@ -35,6 +52,13 @@ along with drchrono Birthday.  If not, see <http://www.gnu.org/licenses/>.
     <div class="container">
       {% block content %}{% endblock %}
     </div>
+    <footer class="footer">
+      <div class="container">
+        <small><a href="https://github.com/darkfeline/drchrono-birthday">Source
+          code for drchrono birthday is provided under the terms of the GNU
+          Affero General Public License.</a></small>
+      </div>
+    </footer>
   </body>
 
 </html>
