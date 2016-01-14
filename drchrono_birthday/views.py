@@ -25,6 +25,7 @@ from django.http import HttpResponseNotAllowed
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseServerError
 from django.http import HttpResponseForbidden
+from django.conf import settings
 from django.core import urlresolvers
 from django.template import loader as template_loader
 
@@ -36,8 +37,6 @@ from drchrono_birthday.models import Doctor
 from drchrono_birthday.models import Patient
 from drchrono_birthday.forms import MessageForm
 
-SECRETS_PATH = 'client_secrets.json'
-
 
 class HttpResponseSeeOther(HttpResponseRedirect):
     status_code = 303
@@ -46,7 +45,7 @@ class HttpResponseSeeOther(HttpResponseRedirect):
 def _make_flow():
     """Make flow object for OAuth."""
     return client.flow_from_clientsecrets(
-        SECRETS_PATH,
+        settings.DRCHRONO_BIRTHDAY_SECRETS,
         scope='patients user',
         redirect_uri='http://localhost:8000/birthday/auth_return/',
     )
