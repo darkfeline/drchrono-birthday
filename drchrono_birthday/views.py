@@ -28,6 +28,7 @@ from django.http import HttpResponseForbidden
 from django.conf import settings
 from django.core import urlresolvers
 from django.template import loader as template_loader
+from django.utils import timezone
 
 import httplib2
 from oauth2client import client
@@ -143,7 +144,7 @@ def auth_return(request):
             _render_error(500, resp.reason))
     data = json.loads(content)
     name = ' '.join((data['first_name'], data['last_name']))
-    doctor = Doctor(user=request.user, name=name, last_updated=datetime.datetime.now())
+    doctor = Doctor(user=request.user, name=name, last_updated=timezone.now())
     doctor.save()
 
     # Update patients.
