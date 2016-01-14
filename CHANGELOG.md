@@ -1,6 +1,6 @@
-# Changelog
+# Change log
 
-## master
+## 0.2.0
 
 ### Added
 
@@ -8,6 +8,10 @@
 - Added the ability to edit birthday message.
 - Added new user creation.
 - drchrono Birthday now tracks the last time client information was updated.
+
+### Changed
+
+- Now licensed under AGPL instead of GPL.
 
 ## 0.1.0
 
