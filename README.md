@@ -37,7 +37,7 @@ drchrono Birthday is distributed as a Django app, which is installed as follows:
         urlpatterns = [
             # ...
             url(r'^birthday/', include('drchrono_birthday.urls',
-                                      namespace="drchrono_birthday")),
+                                       namespace="drchrono_birthday")),
         ]
 
 4. drchrono Birthday lets the project handle user authentication.  See Django's
@@ -61,14 +61,9 @@ drchrono Birthday is distributed as a Django app, which is installed as follows:
 
         DRCHRONO_BIRTHDAY_SECRETS = "/opt/drchrono-birthday/client_secrets.json"
 
-3. Set up SMTP.  Edit the file `management/commands/sendbirthdaymessages.py` and
-   define the function `configure_smtp()`.  This function should return a Python
-   `smtplib.SMTP` object that is configured and authenticated accordingly.
-   Also, edit the constant `_FROM_ADDR` in the same file with the desired
-   sending address for birthday emails.
 6. Configure SMTP.  An example config is included (`config.ini`).  Edit it and
    save it somewhere to use in the next step.
-4. Set up a cron job to run the custom command `python2 manage.py
+7. Set up a cron job to run the custom command `python2 manage.py
    sendbirthdaymessages /opt/drchrono-birthday/config.ini` daily.
 
 drchrono Birthday requires the default set of Django installed apps and
